@@ -77,7 +77,7 @@ onPrivMsg action = runIdentityT . onPrivMsgT (IdentityT . action)
 -- | Send a NAMES query to the current channel.
 ircNames :: Bot ()
 ircNames    =   gets currentChannel
-            >>= ircWrite "NAMES " 
+            >>= ircWrite "NAMES "
 
 -- | Filters out IRC messages that are not PRIVMSG's. In the event of a PRIVMSG,
 -- the relevant part of the message is passed to the action function.
@@ -88,7 +88,7 @@ onPrivMsgT action rawMessage =
     case words rawMessage of
         -- If the server responses to a NAMES query, we add all nicks in
         -- currentChannel to currentNicks.
-        server:"353":_:[x]:_:nicks
+        _:"353":_:[_]:_:nicks
             -> do
                 let currentNicks    = words . drop 1 $ unwords nicks
                 liftBot $ modify (\s -> s {currentNicks})

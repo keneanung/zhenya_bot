@@ -16,7 +16,7 @@ import Data.Char
 import Data.List
 import Data.Monoid
 import Data.Time
-import Prelude hiding (catch)
+import Prelude
 import System.FilePath
 import System.IO hiding (hGetContents)
 import System.IO.Strict (hGetContents)
