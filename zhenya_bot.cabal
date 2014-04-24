@@ -34,8 +34,7 @@ Executable zhenya_bot
                  ,  tokenize                >=  0.1
                  ,  transformers            >=  0.2
                  
-        other-modules: 
-                    Bot
+    other-modules:  Bot
                  ,  Bot.Component
                  ,  Bot.IO
                  ,  Bot.Time
