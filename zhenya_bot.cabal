@@ -33,3 +33,35 @@ Executable zhenya_bot
                  ,  tagsoup                 >=  0.12
                  ,  tokenize                >=  0.1
                  ,  transformers            >=  0.2
+                 
+        other-modules: 
+                    Bot
+                 ,  Bot.Component
+                 ,  Bot.IO
+                 ,  Bot.Time
+                 ,  Bot.Component.Combinator
+                 ,  Bot.Component.Command
+                 ,  Bot.Component.Conditional
+                 ,  Bot.Component.Fuzzy
+                 ,  Bot.Component.Regex
+                 ,  Bot.Component.Stateful
+                 ,  Bot.Component.Timer
+                 ,  Bot.Component.Impl.Dictionary
+                 ,  Bot.Component.Impl.FileSearch
+                 ,  Bot.Component.Impl.Github
+                 ,  Bot.Component.Impl.Goodbye
+                 ,  Bot.Component.Impl.Grep
+                 ,  Bot.Component.Impl.History
+                 ,  Bot.Component.Impl.Lists
+                 ,  Bot.Component.Impl.Loop
+                 ,  Bot.Component.Impl.NGram
+                 ,  Bot.Component.Impl.NickCluster
+                 ,  Bot.Component.Impl.Op
+                 ,  Bot.Component.Impl.PingPong
+                 ,  Bot.Component.Impl.Reboot
+                 ,  Bot.Component.Impl.Roll
+                 ,  Bot.Component.Impl.Seen
+                 ,  Bot.Component.Impl.Spotify
+                 ,  Bot.Component.Impl.Stalker
+                 ,  Bot.Component.Impl.Uptime
+                 ,  Bot.Component.Impl.Youtube
