@@ -24,29 +24,22 @@ fuzzyMatch target threshold action =
 -- | A generic fuzzy matching constructor that can be used with monad
 -- transformers like `Bot.Component.Stateful`.
 fuzzyMatchT ::  BotMonad b
-            -- | The target message that should trigger this component
-            =>  String
-            -- | How sensitive should the fuzzy matching algorithm be to
-            -- differences? Smaller values are more sensitive. 0 is exact match,
-            -- 1 will match anything.
-            ->  Float
-            -- | The action to be executed in the event of a match
-            ->  b ()
-            -- | Resulting Botable method
-            ->  String -> b ()
+            =>  String         -- ^ The target message that should trigger this component
+            ->  Float          -- ^ How sensitive should the fuzzy matching algorithm be to
+                               -- differences? Smaller values are more sensitive. 0 is exact match,
+                               -- 1 will match anything.
+
+            ->  b ()           -- ^ The action to be executed in the event of a match
+            ->  String -> b () -- ^ Resulting Botable method
 fuzzyMatchT target threshold = conditionalT (match target threshold)
 
 
 -- | Determines if two strings match based on their edit distance.
 match ::
-        -- | The target string
-            String
-        -- | The target threshold
-        ->  Float
-        -- | The string that we are testing against
-        ->  String
-        -- | Whether the strings are a match
-        ->  Bool
+            String -- ^ The target string
+        ->  Float  -- ^ The target threshold
+        ->  String -- ^ The string that we are testing against
+        ->  Bool   -- ^ Whether the strings are a match
 match s f input   | length input > (4 * length s)  = False
                   | otherwise                      = fromIntegral (editDistance si $ lcs ni si)
                                                    <= (fromIntegral (length si) * f)

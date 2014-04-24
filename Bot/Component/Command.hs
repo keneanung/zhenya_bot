@@ -43,12 +43,9 @@ simpleCommandT trigger action = commandT trigger (const action)
 -- | The most general command constructor possible, the result of the action
 -- method used here lives inside of a monad transformer.
 commandT    ::  (BotMonad b)
-            -- | The `String` that will trigger this command
-            =>  String
-            -- | The action that should be run when trigger is seen
-            ->  ([String] -> b ())
-            -- | The resulting
-            ->  String -> b ()
+            =>  String             -- ^ The `String` that will trigger this command
+            ->  ([String] -> b ()) -- ^ The action that should be run when trigger is seen
+            ->  String -> b ()     -- ^ The resulting
 commandT trigger action = onPrivMsgT (commandAction . words)
     where
         commandAction (first:args)  |   first == trigger    =   action args

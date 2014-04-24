@@ -23,13 +23,11 @@ regex pattern action = mkComponentT $ regexT pattern actionT
 -- | A general regex matching constructor. For each substring in the message
 -- that matches will be passed to the action method.
 regexT ::  BotMonad b
-       -- | The predicate that determines if the specified action is
-       -- allowed to run.
-       =>  Pattern
-       -- | The action to be executed for every substring that matches the regex
-       ->  (String -> b ())
-       -- | Resulting Botable method
-       ->  String -> b ()
+       =>  Pattern           -- ^ The predicate that determines if the specified action is
+                             -- allowed to run.
+
+       ->  (String -> b ())  -- ^ The action to be executed for every substring that matches the regex
+       ->  String -> b ()    -- ^ Resulting Botable method
 regexT pattern action   =   onPrivMsgT
                         $   mapM_ action
                         .   concat

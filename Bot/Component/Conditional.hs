@@ -21,12 +21,10 @@ conditional predicate action =
 -- | A generic conditional component that will execute an action when a given
 -- predicate over a PRIVMSG message is satisfied.
 conditionalT ::  BotMonad b
-            -- | The predicate that determines if the specified action is
-            -- allowed to run.
-            =>  (String -> Bool)
-            -- | The action to be executed in the event of a match
-            ->  b ()
-            -- | Resulting Botable method
-            ->  String -> b ()
+            =>  (String -> Bool) -- ^ The predicate that determines if the specified action is
+                                 -- allowed to run.
+
+            ->  b ()             -- ^ The action to be executed in the event of a match
+            ->  String -> b ()   -- ^ Resulting Botable method
 conditionalT predicate action  =  onPrivMsgT $ flip when action . predicate
 
