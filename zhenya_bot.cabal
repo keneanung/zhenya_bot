@@ -5,7 +5,14 @@ Author:         Jesse Frankley, Will Coster
 Homepage:       https://github.com/numberten/zhenya_bot
 Category:       Network
 Synopsis:       An IRC bot with a passion for nonsense.
+Maintainer:     Jesse Frankley
 Build-Type:     Simple
+Description:    A IRC bot used for many purposes. Also used as Haskell
+                playground and learning project.
+
+source-repository head
+   type:        git
+   location:    https://github.com/numberten/zhenya_bot
 
 Executable zhenya_bot
     ghc-options:    -W
