@@ -35,6 +35,7 @@ data Flags = Flags {
     ,   nickFlag    ::  String
     ,   channelFlag ::  [String]
     ,   dataFlag    ::  FilePath
+    ,   writeFlag   ::  Double
 } deriving (Data, Typeable, Show)
 
 -- | Declare the default values, help strings and options values for each of the
@@ -65,6 +66,11 @@ flagDefinition = Flags {
                     &=  help "The directory persistent files should be stored"
                     &=  name "data"
                     &=  typ "Directory"
+    ,   writeFlag   =   5  -- One second
+                    &=  explicit
+                    &=  help "Number of IRC writes per second."
+                    &=  name "write-rate"
+                    &=  typ "Double"
 }   &=  summary "Greatest guys IRC bot"
     &=  program "zhenya_bot"
 
@@ -72,37 +78,40 @@ flagDefinition = Flags {
 -- and start the IRC bot.
 main :: IO ()
 main = do
-    Flags{..}   <-  cmdArgs flagDefinition
-    cnHandle    <-  newClusterNickHandle
-    histHandle  <-  newHistoryHandle
+    Flags{..}     <-  cmdArgs flagDefinition
+    cnHandle      <-  newClusterNickHandle
+    histHandle    <-  newHistoryHandle
+    stalkerHandle <-  newStalkerHandle
     -- Create a directory for runtime data if one does not already exist
     runBot $ defaultBotConfig {
-            cfgServer   = serverFlag
-        ,   cfgPort     = portFlag
-        ,   cfgData     = dataFlag
-        ,   cfgChannel  = nub channelFlag
-        ,   cfgNick     = nickFlag
+            cfgServer     = serverFlag
+        ,   cfgPort       = portFlag
+        ,   cfgData       = dataFlag
+        ,   cfgChannel    = nub channelFlag
+        ,   cfgNick       = nickFlag
+        ,   cfgWriteRate  = writeFlag
         } `withComponents` [
             clusterNickService cnHandle 0.3
         ,   historyService histHandle
+        ,   stalker stalkerHandle
 
         ,   define
         ,   fileSearch
         ,   imitate cnHandle
         ,   github
-        ,   grantOps
-        ,   grep histHandle
+        ,   grantOps stalkerHandle
+        ,   grep cnHandle histHandle
         ,   lists
         ,   calcQueens
         ,   rollDice
         ,   sayGoodbye
         ,   seen cnHandle
         ,   spotify
-        ,   stalker
         ,   uptime
         ,   youtube
 
-        ,   command "!id" (ircReply . unwords)
+        ,   command (UsageMessage ["usage: !id string"]) "!id"
+                (ircReply . unwords)
 
         ,   conditional (nickFlag `isPrefixOf`) (ircReply "hm?")
 
